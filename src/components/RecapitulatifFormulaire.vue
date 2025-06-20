@@ -22,7 +22,7 @@
         <ul class="ml-4 list-disc">
           <li>Type : {{ props.typeBien.type }}</li>
           <li>Surface : {{ props.typeBien.surface }} m²</li>
-          <li>Année de construction : {{ props.typeBien.annee }}</li>
+          <li>Année de construction : {{ anneeLabel(props.typeBien.annee ?? '') }}</li>
           <li>Diagnostic : {{ diagnosticLabel(props.typeBien.diagnostic) }}</li>
           <li>État : {{ etatLabel(props.typeBien.etat) }}</li>
         </ul>
@@ -75,7 +75,7 @@ interface AdresseSuggestion {
 interface TypeBien {
   type?: string
   surface?: number | null
-  annee?: number | ''
+  annee?: string
   diagnostic?: string
   etat?: string
 }
@@ -138,4 +138,21 @@ const caracteristiquesCochees = computed<string[]>(() =>
     .filter(([k, v]) => !!k && v === true)
     .map(([k]) => k),
 )
+
+const anneeLabels: Record<string, string> = {
+  avant_1850: 'Avant 1850',
+  '1850_1913': '1850 - 1913',
+  '1914_1947': '1914 - 1947',
+  '1948_1969': '1948 - 1969',
+  '1970_1980': '1970 - 1980',
+  '1981_1991': '1981 - 1991',
+  '1992_2000': '1992 - 2000',
+  '2001_2010': '2001 - 2010',
+  apres_2011: 'Après 2011',
+  unknown: 'Ne sais pas',
+}
+function anneeLabel(val: string | undefined) {
+  if (!val) return ''
+  return anneeLabels[val] || val
+}
 </script>

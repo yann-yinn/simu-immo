@@ -28,8 +28,16 @@
         <label class="block mb-1 font-medium">Année de construction</label>
         <select v-model="local.annee" @change="emitChange" class="w-full border rounded px-3 py-2">
           <option disabled value="">Sélectionnez</option>
-          <!-- @vue-ignore: year et i sont des number -->
-          <option v-for="(year, i) in years" :key="i" :value="year">{{ year }}</option>
+          <option value="avant_1850">Avant 1850</option>
+          <option value="1850_1913">1850 - 1913</option>
+          <option value="1914_1947">1914 - 1947</option>
+          <option value="1948_1969">1948 - 1969</option>
+          <option value="1970_1980">1970 - 1980</option>
+          <option value="1981_1991">1981 - 1991</option>
+          <option value="1992_2000">1992 - 2000</option>
+          <option value="2001_2010">2001 - 2010</option>
+          <option value="apres_2011">Après 2011</option>
+          <option value="unknown">Ne sais pas</option>
         </select>
       </div>
       <!-- Diagnostic -->
@@ -72,7 +80,7 @@ import { defineProps, defineEmits, watch, ref } from 'vue'
 type TypeBien = {
   type: string
   surface: number | null
-  annee: number | ''
+  annee: string
   diagnostic: string
   etat: string
 }
@@ -87,8 +95,6 @@ const local = ref<Partial<TypeBien>>({
   diagnostic: props.modelValue.diagnostic || '',
   etat: props.modelValue.etat || '',
 })
-
-const years = Array.from({ length: 2024 - 1900 + 1 }, (_, i) => 2024 - i)
 
 watch(
   () => props.modelValue,
